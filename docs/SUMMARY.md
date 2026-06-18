@@ -5,4 +5,3 @@
 * [Pharos Agent Kit Integration](pharos-agent-kit.md)
 * [Pharos Skill Engine CLI Integration](pharos-skill-engine.md)
 * [Verification & Test Suite](verification.md)
-* [Demo Video & Pitch Guide](demo-video-guide.md)

@@ -93,4 +93,3 @@ For local offline reading, the documentation is located inside the `docs/` folde
 *   [**Pharos Agent Kit Integration**](file:///c:/xampp/htdocs/cryptographic-contract-auditor/docs/pharos-agent-kit.md): Details on tools, LangChain integration, and structured Actions.
 *   [**Pharos Skill Engine CLI**](file:///c:/xampp/htdocs/cryptographic-contract-auditor/docs/pharos-skill-engine.md): Configuration for capability index tables and markdown command specs.
 *   [**Verification Suite**](file:///c:/xampp/htdocs/cryptographic-contract-auditor/docs/verification.md): Overview of automated Vitest verification.
-*   [**Demo Video Storyboard Script**](file:///c:/xampp/htdocs/cryptographic-contract-auditor/docs/demo-video-guide.md): Step-by-step talking tracks for recording your hackathon video pitch.

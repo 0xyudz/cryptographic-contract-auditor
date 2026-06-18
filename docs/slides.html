@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@pharos/cryptographic-contract-auditor Pitch Slide</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --border-color: rgba(99, 102, 241, 0.25);
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.15);
+      --accent: #a855f7;
+      --accent-glow: rgba(168, 85, 247, 0.15);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --font-title: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+    }
+
+    /* Presentation Container */
+    .deck-container {
+      flex: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 90%;
+      max-width: 1100px;
+      height: 80%;
+      max-height: 600px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    /* Slide Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .slide-header .brand {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-header .number {
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+
+    /* Slide Body content templates */
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .title-slide-layout {
+      text-align: center;
+    }
+
+    .title-slide-layout h1 {
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: 3.2rem;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .title-slide-layout h2 {
+      font-family: var(--font-title);
+      font-weight: 500;
+      font-size: 1.4rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 32px auto;
+      line-height: 1.4;
+    }
+
+    .badge-container {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #a5b4fc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Standard Content layout */
+    .standard-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .standard-layout.reversed {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+
+    .standard-layout .left h2 {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 2.2rem;
+      margin-bottom: 24px;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .point-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .point-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .point-icon {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+
+    .point-text h3 {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #f3f4f6;
+    }
+
+    .point-text p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Visual elements */
+    .right-visual {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      height: 100%;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Clean Architecture Diagram in CSS */
+    .arch-diagram {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .arch-circle {
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .arch-outer {
+      width: 220px;
+      height: 220px;
+      border: 1px dashed rgba(168, 85, 247, 0.4);
+      background: rgba(168, 85, 247, 0.05);
+    }
+
+    .arch-middle {
+      width: 150px;
+      height: 150px;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      background: rgba(99, 102, 241, 0.08);
+      position: absolute;
+    }
+
+    .arch-inner {
+      width: 80px;
+      height: 80px;
+      border: 2px solid #22c55e;
+      background: rgba(34, 197, 94, 0.15);
+      position: absolute;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #4ade80;
+      font-family: var(--font-title);
+      text-align: center;
+    }
+
+    .arch-label {
+      position: absolute;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .arch-label.outer {
+      top: 15px;
+      color: #c084fc;
+    }
+
+    .arch-label.middle {
+      top: 45px;
+      color: #818cf8;
+    }
+
+    /* Flow blocks visual */
+    .flow-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .flow-block {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .flow-block.critical {
+      border-left: 4px solid #ef4444;
+      background: rgba(239, 68, 68, 0.05);
+    }
+    .flow-block.secure {
+      border-left: 4px solid #10b981;
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .flow-arrow {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 10px 16px 10px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--primary);
+    }
+
+    .dots-container {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dot.active {
+      background: var(--primary);
+      width: 24px;
+      border-radius: 6px;
+    }
+
+    /* Speaker Notes Panel */
+    .speaker-notes-panel {
+      background: #090d16;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 20px 40px;
+      z-index: 100;
+      position: relative;
+      transition: max-height 0.3s ease;
+      max-height: 240px;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    }
+
+    .notes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .notes-header h4 {
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      color: #818cf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .notes-toggle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .notes-body {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 14px 20px;
+      border-radius: 12px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    .notes-body strong {
+      color: var(--accent);
+    }
+
+    /* Helper styles */
+    .flex-center {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Presentation Deck -->
+  <div class="deck-container">
+    
+    <!-- Slide 1: Title -->
+    <div class="slide active" id="slide-1">
+      <div class="slide-header">
+        <span class="brand">PHAROS NETWORK AGENT ARENA</span>
+        <span class="number">01 / 05</span>
+      </div>
+      <div class="slide-content">
+        <div class="title-slide-layout">
+          <h1>@pharos/cryptographic-contract-auditor</h1>
+          <h2>Securing autonomous DeFi Agents with deterministic EVM bytecode analysis and tamper-proof cryptographic attestation.</h2>
+          <div class="badge-container">
+            <span class="badge">Pharos Agent Kit</span>
+            <span class="badge">Clean Architecture</span>
+            <span class="badge">Deterministic Security</span>
+            <span class="badge">TypeScript</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Problem -->
+    <div class="slide" id="slide-2">
+      <div class="slide-header">
+        <span class="brand">SECURITY THREAT IN DEFI AGENT ARENA</span>
+        <span class="number">02 / 05</span>
+      </div>
+      <div class="slide-content">
+        <div class="standard-layout">
+          <div class="left">
+            <h2>The Security Threat</h2>
+            <ul class="point-list">
+              <li class="point-item">
+                <div class="point-icon">1</div>
+                <div class="point-text">
+                  <h3>LLM Hallucinations</h3>
+                  <p>AI agents utilizing raw LLMs to read/audit EVM bytecodes are highly vulnerable to hallucinations and formatting errors.</p>
+                </div>
+              </li>
+              <li class="point-item">
+                <div class="point-icon">2</div>
+                <div class="point-text">
+                  <h3>Audit Spoofing</h3>
+                  <p>No deterministic mathematical mechanism to prove an audit actually took place without tampering during agent transit.</p>
+                </div>
+              </li>
+              <li class="point-item">
+                <div class="point-icon">3</div>
+                <div class="point-text">
+                  <h3>On-chain Simulation Cost</h3>
+                  <p>Running full sandbox transactions is slow, expensive, and fails to catch deferred vulnerabilities (like future triggers).</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <div class="right-visual">
+              <div class="flow-container">
+                <div class="flow-block critical" style="opacity: 0.85;">
+                  <span>🤖 Agent Action Request</span>
+                  <span style="color: #ef4444; font-weight: bold;">UNCHECKED</span>
+                </div>
+                <div class="flow-arrow">▼</div>
+                <div class="flow-block critical" style="background: rgba(239, 68, 68, 0.15);">
+                  <span>💥 Untrusted DeFi Smart Contract</span>
+                  <span style="color: #ef4444;">🔥 Rug-pull / Drainer</span>
+                </div>
+                <div class="flow-arrow">▼</div>
+                <div class="flow-block critical" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.08);">
+                  <span>💸 Drained Likuiditas / Fail</span>
+                  <span style="color: #f59e0b;">LOSS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Solution -->
+    <div class="slide" id="slide-3">
+      <div class="slide-header">
+        <span class="brand">THE DETERMINISTIC SOLUTION</span>
+        <span class="number">03 / 05</span>
+      </div>
+      <div class="slide-content">
+        <div class="standard-layout">
+          <div class="left">
+            <h2>The Cryptographic Auditor</h2>
+            <ul class="point-list">
+              <li class="point-item">
+                <div class="point-icon">✓</div>
+                <div class="point-text">
+                  <h3>Deterministic Opcodes Scan</h3>
+                  <p>Scans bytecode using rigid gas-free heuristic rules targeting vulnerability opcodes (e.g. <code>SELFDESTRUCT</code>, <code>DELEGATECALL</code>).</p>
+                </div>
+              </li>
+              <li class="point-item">
+                <div class="point-icon">✓</div>
+                <div class="point-text">
+                  <h3>Tamper-proof Attestation</h3>
+                  <p>Computes canonical SHA-256 hash of audit metadata and signs it with the auditor's key to guarantee data integrity.</p>
+                </div>
+              </li>
+              <li class="point-item">
+                <div class="point-icon">✓</div>
+                <div class="point-text">
+                  <h3>Replay Protection</h3>
+                  <p>Binds each audit result to unique auditor IDs and fresh timestamps so signatures cannot be replayed for expired code states.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <div class="right-visual">
+              <div class="flow-container" style="gap: 8px;">
+                <div class="flow-block secure">
+                  <span>Bytecode Scanner</span>
+                  <span style="color: #10b981;">Deterministic</span>
+                </div>
+                <div class="flow-arrow" style="margin: -2px 0;">▼</div>
+                <div class="flow-block secure">
+                  <span>SHA-256 Attestation</span>
+                  <span style="color: #10b981;">Tamper-proof</span>
+                </div>
+                <div class="flow-arrow" style="margin: -2px 0;">▼</div>
+                <div class="flow-block secure" style="border-left-color: var(--accent); background: rgba(168, 85, 247, 0.05);">
+                  <span>Auditor Signature</span>
+                  <span style="color: var(--accent); font-weight: bold;">VERIFIED</span>
+                </div>
+                <div class="flow-arrow" style="margin: -2px 0;">▼</div>
+                <div class="flow-block secure" style="background: rgba(16, 185, 129, 0.15);">
+                  <span>🛡️ AI Agent Execution</span>
+                  <span style="color: #10b981; font-weight: 600;">SAFE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Clean Architecture -->
+    <div class="slide" id="slide-4">
+      <div class="slide-header">
+        <span class="brand">ROBUST ARCHITECTURE STANDARDS</span>
+        <span class="number">04 / 05</span>
+      </div>
+      <div class="slide-content">
+        <div class="standard-layout">
+          <div class="left">
+            <h2>Clean Architecture</h2>
+            <ul class="point-list">
+              <li class="point-item">
+                <div class="point-icon">⚙</div>
+                <div class="point-text">
+                  <h3>Zero-Dependency Domain</h3>
+                  <p>Domain core layer has 0 external NPM package dependencies. Completely isolates business logic from supply-chain hijacking.</p>
+                </div>
+              </li>
+              <li class="point-item">
+                <div class="point-icon">⚙</div>
+                <div class="point-text">
+                  <h3>Standardized Adaptors</h3>
+                  <p>Integrates as a native Tool, a LangChain Tool, or an Action with strict schema-based Zod boundaries.</p>
+                </div>
+              </li>
+              <li class="point-item">
+                <div class="point-icon">⚙</div>
+                <div class="point-text">
+                  <h3>Rigorous Quality Checks</h3>
+                  <p>Equipped with 55 unit and integration tests passing 100% locally and in automated GitHub Actions pipelines.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <div class="right-visual">
+              <div class="arch-diagram">
+                <div class="arch-circle arch-outer"></div>
+                <span class="arch-label outer">Infrastructure / Adapters</span>
+                <div class="arch-circle arch-middle"></div>
+                <span class="arch-label middle">Application / Use-Cases</span>
+                <div class="arch-circle arch-inner">
+                  <div style="margin-top: 22px;">CORE<br>DOMAIN</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Roadmap -->
+    <div class="slide" id="slide-5">
+      <div class="slide-header">
+        <span class="brand">FUTURE ROADMAP & DEFI SENTINEL</span>
+        <span class="number">05 / 05</span>
+      </div>
+      <div class="slide-content">
+        <div class="standard-layout">
+          <div class="left">
+            <h2>Roadmap: Dual Cascade</h2>
+            <ul class="point-list">
+              <li class="point-item">
+                <div class="point-icon">⚡</div>
+                <div class="point-text">
+                  <h3>Phase 1: Reusable Skill Modules (Now)</h3>
+                  <p>Complete programmatic package ready to be uploaded to the Pharos Skill Registry for all autonomous agents to consume.</p>
+                </div>
+              </li>
+              <li class="point-item">
+                <div class="point-icon">🚀</div>
+                <div class="point-text">
+                  <h3>Phase 2: DeFi Sentinel Agents (Future)</h3>
+                  <p>Deploy autonomous security agents in the Agent Arena that act as proxy audit checks before execution of high-value operations.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <div class="right-visual" style="border-color: rgba(34, 197, 94, 0.25);">
+              <div style="font-family: var(--font-title); font-size: 4rem; margin-bottom: 12px;">🛡️</div>
+              <div style="font-family: var(--font-title); font-weight: 800; font-size: 1.2rem; color: #4ade80;">DEFENSIVE SENTINEL</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 8px; max-width: 200px;">
+                Securing DeFi transactions otonomously on Pharos Chain.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Controls Container -->
+  <div class="controls">
+    <div class="dots-container" id="dots">
+      <div class="dot active" onclick="goToSlide(0)"></div>
+      <div class="dot" onclick="goToSlide(1)"></div>
+      <div class="dot" onclick="goToSlide(2)"></div>
+      <div class="dot" onclick="goToSlide(3)"></div>
+      <div class="dot" onclick="goToSlide(4)"></div>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn" onclick="prevSlide()">◀ Sebelumnya</button>
+      <button class="btn" onclick="nextSlide()" style="background: linear-gradient(135deg, var(--primary), var(--accent)); border: none;">Berikutnya ▶</button>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        if (index === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      dots.forEach((dot, index) => {
+        if (index === currentSlide) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlide();
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    // Init first slide
+    updateSlide();
+  </script>
+</body>
+</html>
