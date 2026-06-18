@@ -2,6 +2,7 @@
 
 * [Introduction](introduction.md)
 * [Architecture & Design System](architecture.md)
+* [Cryptographic Attestation Protocol](attestation-protocol.md)
 * [Pharos Agent Kit Integration](pharos-agent-kit.md)
 * [Pharos Skill Engine CLI Integration](pharos-skill-engine.md)
 * [Verification & Test Suite](verification.md)

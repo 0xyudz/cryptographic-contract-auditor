@@ -1,6 +1,6 @@
 # Verification & Test Suite
 
-To ensure the technical quality and correctness of the `@pharos/cryptographic-contract-auditor` package, we maintain a comprehensive suite of unit and integration tests.
+To ensure the technical quality, reliability, and correctness of the `@pharos/cryptographic-contract-auditor` package, we maintain a comprehensive suite of unit and integration tests.
 
 ---
 
@@ -28,8 +28,35 @@ tests/
 ├── agent/
 │   └── agent.test.ts            # E2E Agent kit client connection tests
 └── langchain/
-    └── langchain.test.ts        # LangChain tool call formatting and JSON output tests
+│   └── langchain.test.ts        # LangChain tool call formatting and JSON output tests
 ```
+
+---
+
+## 🔍 Detailed Verification Targets
+
+### 1. Domain Entities & Value Objects Validation
+*   **ContractAddress**: Validates that addresses must begin with `0x`, have exactly 42 characters, be valid hex, and be canonically lowercased.
+*   **Bytecode**: Verifies that raw bytecode must be a valid hex string of even length.
+*   **RiskScore**: Asserts that points are added up dynamically based on vulnerabilities:
+    *   `CRITICAL` (SELFDESTRUCT) = 40 points
+    *   `HIGH` (DELEGATECALL) = 20 points
+    *   `MEDIUM` (TX.ORIGIN) = 10 points
+    *   `LOW` (BLOCK.TIMESTAMP) = 5 points
+    *   Verifies that total risk score is capped at `100` and `isSafeForAgent` resolves to `false` for any score $\ge 40$.
+*   **AuditResult**: Verifies that `.attest()` binds a tamper-evident attestation envelope and seals the result immutably.
+
+### 2. Infrastructure Layer Matching Logic
+*   **BasicHeuristicEngine**: Asserts that searching for opcodes works across various bytecode shapes. It verifies matching using hex patterns:
+    *   `ff` -> `HEURISTIC_SELFDESTRUCT`
+    *   `f4` -> `HEURISTIC_DELEGATECALL`
+    *   `46` -> `HEURISTIC_TX_ORIGIN`
+    *   `42` -> `HEURISTIC_TIMESTAMP`
+*   **Sha256AttestationGenerator**: Verifies that keys-sorting works properly and that changing a single character in the audit result changes the hash digest completely.
+
+### 3. Agent Adapters & Reasoning Frameworks
+*   **PharosSkillAdapter**: Verifies that the resulting envelope matches the Pharos registry format.
+*   **LangChain**: Validates that inputs can be parsed from raw strings or JSON strings, and that output text conforms to the required LLM parser structures.
 
 ---
 
@@ -64,3 +91,4 @@ npm test
       Tests  55 passed (55)
    Duration  18.96s
 ```
+All tests run with zero warnings, validating the stability, portabiliy, and readiness of the skill package for production deployment.

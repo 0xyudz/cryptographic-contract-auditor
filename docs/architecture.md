@@ -43,3 +43,45 @@ Contains concrete adapters that satisfy the domain interfaces.
 Boundary adapters converting input parameters into the application formats.
 *   `PharosSkillAdapter`: Wraps output payloads in the standard Pharos JSON envelope.
 *   `cli.ts`: Entry point script accepting terminal command line arguments.
+
+---
+
+## 🔄 The Data Flow Pipeline
+
+When an AI Agent or CLI triggers an audit, the request flows as follows:
+
+```
+[CLI / Agent Connection] (Raw input address & auditorId)
+         │
+         ▼
+[Interface Layer] -> PharosSkillAdapter.toRequest()
+         │
+         ▼
+[Application Layer] -> AuditContractUseCase.execute()
+         │   ├─► Validates address using ContractAddress (Domain VO)
+         │   ├─► Fetches bytecode using BytecodeFetcher (Infrastructure)
+         │   ├─► Validates bytecode using ContractBytecode (Domain Entity)
+         │   │
+         │   ▼
+[Domain Layer] -> HeuristicEngine.scan() (Infrastructure logic)
+         │   ├─► Performs regex opcode scanning on EVM bytecode hex
+         │   ├─► Generates list of HeuristicCheck objects
+         │   │
+         │   ▼
+[Domain Layer] -> RiskScore.calculate()
+         │   ├─► Sums points for failed checks (Critical=40, High=20, Med=10, Low=5)
+         │   ├─► Determines RiskLevel and safety flags
+         │   │
+         │   ▼
+[Domain Layer] -> AttestationGenerator.generate()
+         │   ├─► Canonically serializes audit result
+         │   ├─► Generates SHA-256 hash and unique signature
+         │   │
+         │   ▼
+[Application Layer] -> Use case compiles raw AuditResult
+         │
+         ▼
+[Interface Layer] -> PharosSkillAdapter.toResponse() (Formatted JSON)
+```
+
+This strict inward-flowing pipeline guarantees that your domain logic remains completely isolated, readable, testable, and robust against network failures.
