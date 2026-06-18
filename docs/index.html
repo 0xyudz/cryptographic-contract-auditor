@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>@pharos/cryptographic-contract-auditor Documentation</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Deterministic EVM bytecode security scanner and cryptographic attestation engine for autonomous DeFi agents.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Theme Stylesheet (Darkly/Sleek look default, with customization) -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  
+  <style>
+    :root {
+      /* Theme colors (Pharos Neon Indigo & Purple theme) */
+      --theme-color: #6366f1;
+      --accent-color: #a855f7;
+      --background-color: #ffffff;
+      --text-color: #1f2937;
+      --sidebar-background: #f8fafc;
+      --sidebar-border: #e2e8f0;
+      
+      /* Typography overrides */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --heading-font-family: 'Outfit', sans-serif;
+      --code-font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--text-color);
+      background-color: var(--background-color);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Elegant Sidebar styling */
+    .sidebar {
+      background-color: var(--sidebar-background);
+      border-right: 1px solid var(--sidebar-border);
+      padding-top: 20px;
+    }
+
+    .sidebar-nav {
+      padding-left: 15px;
+    }
+
+    .sidebar-nav li a {
+      font-weight: 500;
+      font-size: 14px;
+      color: #64748b;
+      transition: all 0.2s ease;
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin: 4px 10px 4px 0;
+      display: block;
+    }
+
+    .sidebar-nav li a:hover {
+      color: var(--theme-color);
+      background-color: #f1f5f9;
+      text-decoration: none;
+    }
+
+    .sidebar-nav li.active > a {
+      color: var(--theme-color) !important;
+      font-weight: 600;
+      background-color: #eef2ff;
+      border-right: 3px solid var(--theme-color);
+    }
+
+    /* Main Content Typography */
+    .markdown-section h1, 
+    .markdown-section h2, 
+    .markdown-section h3, 
+    .markdown-section h4 {
+      font-family: var(--heading-font-family);
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .markdown-section h1 {
+      font-size: 2.2rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      border-bottom: none;
+      background: linear-gradient(135deg, var(--theme-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      padding-bottom: 10px;
+    }
+
+    .markdown-section h2 {
+      font-size: 1.6rem;
+      margin-top: 2rem;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    /* Paragraphs and lists */
+    .markdown-section p, 
+    .markdown-section ul, 
+    .markdown-section ol {
+      line-height: 1.7;
+      font-size: 15.5px;
+      color: #334155;
+    }
+
+    /* Premium styled Code blocks */
+    .markdown-section pre {
+      background-color: #0f172a;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border: 1px solid #1e293b;
+    }
+
+    .markdown-section code {
+      font-family: var(--code-font-family);
+      font-size: 0.9em;
+      border-radius: 4px;
+    }
+
+    .markdown-section p code, 
+    .markdown-section li code {
+      background-color: #f1f5f9;
+      color: #dc2626;
+      padding: 2px 6px;
+      font-weight: 500;
+    }
+
+    .markdown-section pre code {
+      color: #cbd5e1;
+      background-color: transparent;
+      padding: 0;
+    }
+
+    /* Custom alert box styling (GitHub style alerts) */
+    .markdown-section blockquote {
+      border-left: 4px solid var(--theme-color);
+      background-color: #eef2ff;
+      border-radius: 0 8px 8px 0;
+      color: #312e81;
+      padding: 12px 20px;
+      margin: 1.5em 0;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">Loading premium documentation...</div>
+  <script>
+    window.$docsify = {
+      name: 'Cryptographic Contract Auditor',
+      repo: 'https://github.com/your-username/cryptographic-contract-auditor', // Replace with your repository
+      loadSidebar: true,
+      sidebarDisplayLevel: 1,
+      alias: {
+        '/.*/_sidebar.md': '/SUMMARY.md',
+        '/_sidebar.md': '/SUMMARY.md'
+      },
+      homepage: 'introduction.md',
+      search: {
+        maxAge: 86400000, // Expiration time in ms, one day by default
+        paths: 'auto',
+        placeholder: 'Search documentation...',
+        noData: 'No results found!',
+        depth: 4
+      },
+      copyCode: {
+        buttonText : 'Copy to clipboard',
+        errorText  : 'Error',
+        successText: 'Copied'
+      }
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!-- Search Plugin -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <!-- Copy Code Plugin -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+</body>
+</html>
+
