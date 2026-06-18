@@ -1,6 +1,6 @@
 # Verification & Test Suite
 
-To ensure the technical quality, reliability, and correctness of the `@pharos/cryptographic-contract-auditor` package, we maintain a comprehensive suite of unit and integration tests.
+To ensure the technical quality, reliability, and correctness of the `CrypCA` package, we maintain a comprehensive suite of unit and integration tests.
 
 ---
 

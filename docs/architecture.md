@@ -1,6 +1,6 @@
 # Architecture & Design System
 
-The `@pharos/cryptographic-contract-auditor` is engineered under strict **Clean Architecture** guidelines. This ensures a clean separation of concerns, decoupling our core business rules from external libraries, database mechanisms, and blockchain network clients.
+The `CrypCA` is engineered under strict **Clean Architecture** guidelines. This ensures a clean separation of concerns, decoupling our core business rules from external libraries, database mechanisms, and blockchain network clients.
 
 ---
 

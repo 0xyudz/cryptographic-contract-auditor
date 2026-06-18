@@ -1,6 +1,6 @@
 # Cryptographic Attestation Protocol
 
-The `@pharos/cryptographic-contract-auditor` package ensures that audit results are tamper-proof and verifiable by downstream autonomous agents. This page details the exact cryptographic attestation protocol used to seal and verify audit outcomes.
+The `CrypCA` package ensures that audit results are tamper-proof and verifiable by downstream autonomous agents. This page details the exact cryptographic attestation protocol used to seal and verify audit outcomes.
 
 ---
 

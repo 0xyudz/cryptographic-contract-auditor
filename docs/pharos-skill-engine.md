@@ -1,6 +1,6 @@
 # Pharos Skill Engine CLI Integration
 
-The `@pharos/cryptographic-contract-auditor` is designed to be fully compatible with the CLI-driven **Pharos Skill Engine** format. This allows AI Agents that run command-line tools (e.g. via bash or terminal executors) to execute our auditor.
+The `CrypCA` is designed to be fully compatible with the CLI-driven **Pharos Skill Engine** format. This allows AI Agents that run command-line tools (e.g. via bash or terminal executors) to execute our auditor.
 
 ---
 

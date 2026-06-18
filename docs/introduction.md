@@ -1,6 +1,6 @@
 # Introduction & Vision
 
-Welcome to the comprehensive, official documentation for `@pharos/cryptographic-contract-auditor` — a deterministic, heuristic-based smart contract security scanner engineered for the **Pharos AI Agent and on-chain economy**.
+Welcome to the comprehensive, official documentation for `CrypCA` — a deterministic, heuristic-based smart contract security scanner engineered for the **Pharos AI Agent and on-chain economy**.
 
 ---
 
@@ -20,7 +20,7 @@ Traditional scanners are designed for humans, and modern LLM (Large Language Mod
 
 ## 💡 The Solution: Cryptographic Contract Auditor
 
-`@pharos/cryptographic-contract-auditor` solves these challenges by combining **low-level, deterministic EVM bytecode heuristics** with **tamper-evident cryptographic attestations**.
+`CrypCA` solves these challenges by combining **low-level, deterministic EVM bytecode heuristics** with **tamper-evident cryptographic attestations**.
 
 ```mermaid
 graph TD

@@ -51,7 +51,7 @@ async function main() {
   } else {
     // Run the default E2E Demo Scenarios
     console.log("==========================================================================");
-    console.log(" Pharos Hackathon - @pharos/cryptographic-contract-auditor CLI Demo");
+    console.log(" Pharos Hackathon - CrypCA CLI Demo");
     console.log("==========================================================================\n");
 
     const maliciousAddress = new ContractAddress("0x0000000000000000000000000000000000009999");

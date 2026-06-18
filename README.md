@@ -1,4 +1,4 @@
-# @pharos/cryptographic-contract-auditor
+# CrypCA
 
 <div align="center">
 
@@ -10,7 +10,7 @@
 
 **The Foundational Security Layer for the Pharos AI Agent Economy**
 
-*Deterministic smart contract auditing with cryptographic attestation for autonomous DeFi agents*
+*CrypCA (Cryptographic Contract Auditor): Deterministic smart contract auditing with cryptographic attestation for autonomous DeFi agents*
 
 [Interactive Docs](https://0xyudz.github.io/cryptographic-contract-auditor/) • [Slide Deck](https://0xyudz.github.io/cryptographic-contract-auditor/slides.html) • [Architecture](#-architecture) • [Quick Start](#-quick-start) • [Phase 2 Vision](#-phase-2-vision-sentinel-defi-agent)
 
@@ -33,7 +33,7 @@ Autonomous AI Agents are deploying capital on-chain at lightning speed, but they
 
 ## 💡 The Solution
 
-`@pharos/cryptographic-contract-auditor` is a **deterministic, heuristic-based security scanner** that provides AI Agents with cryptographically provable safety guarantees before they interact with any smart contract on the Pharos network.
+`CrypCA` is a **deterministic, heuristic-based security scanner** that provides AI Agents with cryptographically provable safety guarantees before they interact with any smart contract on the Pharos network.
 
 ### Why This Matters
 

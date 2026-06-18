@@ -8,7 +8,7 @@ network: pharos-testnet
 chainId: 688688
 ---
 
-# Cryptographic Contract Auditor
+# CrypCA
 
 ## Overview
 This Skill enables AI Agents on Pharos network to safely evaluate smart contract security before interaction. It uses deterministic heuristic bytecode analysis combined with cryptographic attestation (SHA-256) to guarantee audit integrity.
